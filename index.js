@@ -1,6 +1,8 @@
 const fs = require("fs");
 const http=require("http");
 const path = require('path');
+const productData = fs.readFileSync("./data/products.json",'utf-8')
+const productTemplate= fs.readFileSync("./public/index.html","utf-8");
 
 const server= http.createServer((req,res) => {
     const pathname = req.url;
@@ -8,14 +10,16 @@ const server= http.createServer((req,res) => {
     if(pathname=="/"){
 
         res.writeHead(200);
-        res.end("hello from server")
+        res.end(productTemplate)
     }else if(pathname==="/product"){
         res.writeHead(200);
         res.end("hello from product page")
     }
     else if(pathname==="/api"){
-        res.writeHead(200);
-        res.end("hello from API")
+        res.writeHead(200,{
+            "content-type":"application/json"
+        });
+        res.end(productData)
     }
     
     else{
